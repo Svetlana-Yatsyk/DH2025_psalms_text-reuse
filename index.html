@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>My Project Workflow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/theme/white.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <h1>My Project Workflow</h1>
+        <h3>From psalms to patterns: large-scale detection of liturgical structures in Books of Hours through text reuse detection algorithms</h3>
+        <p><em>Svetlana Yatsyk – 2025</em></p>
+      </section>
+
+      <section>
+        <h2>1. Data Collection</h2>
+        <ul>
+          <li>Manuscripts, editions, metadata</li>
+          <li>Image files and transcription sources</li>
+          <li>Linked data or catalogue references</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>2. Computer Vision Tasks</h2>
+        <h3>2.1 Object Detection</h3>
+        <ul>
+          <li>Detect page regions, text zones, lines</li>
+        </ul>
+        <h3>2.2 HTR</h3>
+        <ul>
+          <li>Handwritten Text Recognition</li>
+          <li>Model training and inference</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>3. Data Extraction and Transformation</h2>
+        <ul>
+          <li>Convert raw outputs to structured formats</li>
+          <li>Align images and texts</li>
+          <li>Normalize and clean transcriptions</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>4. Text Reuse Detection</h2>
+        <ul>
+          <li>Use tools like Passim or TRACER</li>
+          <li>Detect intertextuality across corpora</li>
+          <li>Evaluate results with precision/recall</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>5. Postprocessing &amp; Prediction Propagation</h2>
+        <ul>
+          <li>Heuristics and rules</li>
+          <li>Propagation across pages or segments</li>
+          <li>Error correction</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>6. Sequence Detection</h2>
+        <ul>
+          <li>Detect logical or editorial sequences</li>
+          <li>E.g. identify biblical citations or gloss orders</li>
+          <li>Graph or tree-like models</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Thank you!</h2>
+        <p>Let's discuss how these steps interact and evolve</p>
+        <p>✉️ syatsyk@cnrs.fr<br>
+           🔗 <a href="https://github.com/Svetlana-Yatsyk/DH2025_psalms_text-reuse">project-repo-link</a></p>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      transition: 'slide'
+    });
+  </script>
+</body>
+</html>
