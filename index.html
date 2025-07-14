@@ -2,85 +2,638 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>My Project Workflow</title>
+  <title>Yatsyk – HORAE – DH2025</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/theme/white.css" id="theme">
+  <style>
+.tree{
+  --spacing : 1.5rem;
+  --radius  : 10px;
+}
+.tree li{
+  display: block;
+  position: relative;
+  padding-left: calc(2 * var(--spacing) - var(--radius) - 2px);
+}
+.tree ul{
+  margin-left: calc(var(--radius) - var(--spacing));
+  padding-left: 0;
+}
+.tree ul li{
+  border-left: 2px solid #ddd;
+}
+.tree ul li:last-child{
+  border-color: transparent;
+}
+.tree ul li::before{
+  content: '';
+  display: block;
+  position: absolute;
+  top: calc(var(--spacing) / -2);
+  left: -2px;
+  width: calc(var(--spacing) + 2px);
+  height: calc(var(--spacing) + 1px);
+  border: solid #ddd;
+  border-width: 0 0 2px 2px;
+}
+.tree summary{
+  display: block;
+  cursor: pointer;
+}
+.tree summary::marker,
+.tree summary::-webkit-details-marker{
+  display: none;
+}
+.tree summary:focus{
+  outline: none;
+}
+.tree summary:focus-visible{
+  outline: 1px dotted #000;
+}
+.tree li::after,
+.tree summary::before{
+  content: '';
+  display: block;
+  position: absolute;
+  top: calc(var(--spacing) / 2 - var(--radius));
+  left: calc(var(--spacing) - var(--radius) - 1px);
+  width: calc(2 * var(--radius));
+  height: calc(2 * var(--radius));
+  border-radius: 50%;
+  background: #ddd;
+}
+.tree summary::before{
+  content: '+';
+  z-index: 1;
+  background: #696;
+  color: #fff;
+  line-height: calc(2 * var(--radius) - 2px);
+  text-align: center;
+}
+.tree details[open] > summary::before{
+  content: '−';
+}
+.logo-biblissima {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0rem;
+  height: 60px;
+  opacity: 0.7;
+  z-index: 1000;
+}
+.logo-biblissima.first {
+  content: url("imgs/biblissima-sans-baseline-sombre.png");
+}
+section {
+  padding-bottom: 4rem;
+}
+
+  </style>
 </head>
 <body>
   <div class="reveal">
     <div class="slides">
 
+<!-- First slide -->
+<section>
+  <h1>From psalms to patterns:</h1>
+  <h3>large-scale detection of liturgical structures in Books of Hours through text reuse detection</h3>
+  <p><em>Svetlana Yatsyk – IRHT – DH2025</em></p>
+  <img src="imgs/biblissima-sans-baseline-sombre.png" alt="Biblissima Logo" class="logo-biblissima">
+</section>
+
+<!-- All other slides -->
+<script>
+  // Automatically add the logo to all slides except the first
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.slides > section');
+    slides.forEach((slide, index) => {
+      if (index === 0) return; // skip the first slide
+      const logo = document.createElement('img');
+      logo.src = 'imgs/biblissima-sans-baseline-sombre.png';
+      logo.alt = 'Biblissima Logo';
+      logo.className = 'logo-biblissima';
+      slide.appendChild(logo);
+    });
+  });
+</script>
+
       <section>
-        <h1>My Project Workflow</h1>
-        <h3>From psalms to patterns: large-scale detection of liturgical structures in Books of Hours through text reuse detection algorithms</h3>
-        <p><em>Svetlana Yatsyk – 2025</em></p>
+        <section>
+          <h2>Introduction</h2>
+        </section>
+
+      <section>
+        <h2>Project Overview</h2>
+        <div style="display: flex; gap: 3rem; font-size: 0.7em; line-height: 1.6;">
+          
+          <!-- Left column: general info -->
+          <div style="flex: 1;">
+            <h4>HORAE Project</h4>
+            <ul>
+              <li><a href="https://anr.fr/Projet-ANR-17-CE38-0008"> ANR-17-CE38-0008</a></li>
+              <li><strong>Period: </strong>2018–2022</li>
+            </ul>
+            <h4 style="margin-top: 2em;">Cross-disciplinary Nature</h4>
+            <ul>
+              <li>Computer Vision</li>
+              <li>Natural Language Processing</li>
+              <li>Book History</li>
+            </ul>
+          </div>
+
+          <!-- Right column: partners -->
+          <div style="flex: 2;">
+            <h3>Partners</h3>
+            <ul>
+              <li><strong>IRHT (CNRS)</strong> – France<br>
+                Dominique Stutzmann, Louis Chevalier, Laura Lebarbey, Jacob Currie
+              </li>
+              <li><strong>Teklia</strong> – France<br>
+                Christopher Kermorvant, Marie-Laurence Bonhomme, Mélanie Boillet
+              </li>
+              <li><strong>LS2N</strong> – Nantes<br>
+                Béatrice Daille, Amir Hazem
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+
+        <section>
+          <h3>Canonical Hours</h3>
+          <ul style="font-size: 0.7em; line-height: 1.6;">
+            <li><strong>Matins</strong> – at midnight</li>
+            <li><strong>Lauds</strong> – in the early morning</li>
+            <li><strong>Prime</strong> – first hour of the daylight</li>
+            <li><strong>Terce</strong> – at 9 AM</li>
+            <li><strong>Sext</strong> – at noon</li>
+            <li><strong>None</strong> – at 3 PM</li>
+            <li><strong>Vespers</strong> – at sunset</li>
+            <li><strong>Compline</strong> (<em>Completorium</em>) – at the end of the day.</li>
+          </ul>
+            </section>
+
+
+        <!-- Books of Hours presentation -->
+        <section>
+          <h3>Books of Hours</h3>
+
+          <div style="display: flex; align-items: flex-start; gap: 3rem; margin-left: -8%;">
+
+            <!-- Left column = img -->
+            <div style="flex: 0 0 auto;">
+              <img src="imgs/Paris, Arsenal, Ms. 644, fol. 104r.jpg"
+                   alt="Paris, Arsenal, Ms. 644, fol. 104r"
+                   style="max-height: 60vh; border: 1px solid #ccc;">
+              <p style="font-size: 0.5em; text-align: center; margin-top: 0.3em;">
+                <a href="https://demo.arkindex.org/element/5698ccda-be8d-4bc2-b505-a8cc87025eea?from=2de4f389-79a1-4047-bf70-f96adb4262bb">
+                  Paris, Arsenal, Ms. 644, fol. 104r
+                </a>
+              </p>
+            </div>
+
+            <!-- Right column = text -->
+            <div style="flex: 1; margin-top: 2vh;">
+              <ul style="font-size: 1em; line-height: 1.5;">
+                </br>
+                <li>Late medieval bestsellers (>10 000 copies)</li>
+                <li>For religious practices of rich lay people</li>
+                <li>Highly structured</li>
+                <li>Lavishly illuminated.</li>
+              </ul>
+            </div>
+          </div>
+            </section>
+
+<!--         <section>
+          <video
+            src="imgs/Ms. lat. 1190.mp4"
+            autoplay
+            loop
+            muted
+            playsinline
+            style="max-width: 70%; height: auto; border: 1px solid #ccc;">
+          </video>
+            </section> -->
+        <section>
+          <h3>Structure of the Books of Hours</h3>
+          <div style="display: flex; align-items: flex-start; gap: 3rem; margin-left: -8%;">
+
+            <!-- Left column = img (1/4) -->
+            <div style="flex: 1;">
+              <img src="imgs/febr.jpg"
+                   alt="Chantilly, Bibliothèque et archives du musée Condé, 0065 (1284), fol. 2v"
+                   style="max-height: 60vh; border: 1px solid #ccc;">
+              <p style="font-size: 0.5em; text-align: center; margin-top: 0.3em;">
+                <a href="https://demo.arkindex.org/element/1598e792-af90-4a40-a8e5-61d16b3bf295?from=38f60d86-d729-46c8-9310-0d02fefa069e">
+                  Chantilly, Bibliothèque et archives du musée Condé, 0065 (1284), fol. 2v
+                </a>
+              </p>
+            </div>
+
+            <!-- Right column = text (3/4) -->
+            <div style="flex: 2; margin-top: 2vh;">
+              <ul style="font-size: 0.7em; line-height: 1.5;">
+                <li>Liturgical calendar</li>
+                <li>Four gospel pericopes</li>
+                <li>Hours of the Virgin (<span lang="la"><em>Officium parvum beatae Mariae Virginis</em></span>)</li>
+                <li>Hours of the Cross</li>
+                <li>Hours of the Holy Spirit</li>
+                <li>The office of the dead (<span lang="la"><em>Officium Defunctorum</em></span>)</li>
+                <li>Penitential psalms</li>
+                <li>Hours of the passion</li>
+                <li>Suffrages</li>
+                <li>The litany of the saints…</li>
+              </ul>
+            </div>
+
+          </div>
+            </section>
+        <section>
+          <h3>Book of Hours: granularity</h3>
+          <div style="flex: 4;">
+            <ul class="tree" style="font-size: 0.75em;">
+                <li>
+                  <details open>
+                    <summary>Book of Hours</summary>
+                    <ul>
+                      <li>Calendar</li>
+                      <li>Gospel lessons</li>
+                      <li>
+                        <details>
+                          <summary>Hours of the Virgin</summary>
+                          <ul>
+                            <li>
+                              <details>
+                                <summary>Matins</summary>
+                                <ul>
+                                  <li>
+                                    <details>
+                                      <summary>Invitatory</summary>
+                                      <ul>
+                                        <li>
+                                          <details>
+                                            <summary>Versicles & Responses</summary>
+                                            <ul>
+                                              <li>Vers.</li>
+                                              <li>Resp.</li>
+                                            </ul>
+                                          </details>
+                                        </li>
+                                        <li>Gloria</li>
+                                        <li>
+                                          <details>
+                                            <summary>Psalm 94</summary>
+                                            <ul>
+                                              <li>Antiphon</li>
+                                              <li>
+                                                <details>
+                                                  <summary>Psalm</summary>
+                                                  <ul>
+                                                    <li>Ps 94:1-2</li>
+                                                    <li>Antiphon</li>
+                                                    <li>Ps 94:3-4</li>
+                                                    <li>Antiphon part 2</li>
+                                                    <li>Ps 94:5-7</li>
+                                                    <li>Antiphon</li>
+                                                    <li>Ps 94:8-9</li>
+                                                    <li>Antiphon part 2</li>
+                                                  </ul>
+                                                </details>
+                                              </li>
+                                            </ul>
+                                          </details>
+                                        </li>
+                                      </ul>
+                                    </details>
+                                  </li>
+                                  <li>Hymn</li>
+                                  <li>
+                                    <details>
+                                      <summary>Nocturns</summary>
+                                      <ul>
+                                        <li>
+                                          <details>
+                                            <summary>Nocturn 1</summary>
+                                            <ul>
+                                              <li>
+                                                <details>
+                                                  <summary>Psalms</summary>
+                                                  <ul>
+                                                    <li>Psalm 1</li>
+                                                    <li>Psalm 2</li>
+                                                    <li>etc</li>
+                                                  </ul>
+                                                </details>
+                                              </li>
+                                              <li>Versicles & Responses</li>
+                                              <li>Lord’s Prayer</li>
+                                              <li>Absolution</li>
+                                              <li>
+                                                <details>
+                                                  <summary>Lessons</summary>
+                                                  <ul>
+                                                    <li>
+                                                      <details>
+                                                        <summary>Lesson 1</summary>
+                                                        <ul>
+                                                          <li>Blessing</li>
+                                                          <li>Lesson 1</li>
+                                                          <li>
+                                                            <details>
+                                                              <summary>Responsory 1</summary>
+                                                              <ul>
+                                                                <li>Respond</li>
+                                                                <li>Verse</li>
+                                                                <li>Partial respond</li>
+                                                                <li>Lesser doxology</li>
+                                                              </ul>
+                                                            </details>
+                                                          </li>
+                                                        </ul>
+                                                      </details>
+                                                    </li>
+                                                    <li>Lesson 2</li>
+                                                    <li>Etc.</li>
+                                                  </ul>
+                                                </details>
+                                              </li>
+                                            </ul>
+                                          </details>
+                                        </li>
+                                        <li>Nocturn 2</li>
+                                        <li>Nocturn 3</li>
+                                      </ul>
+                                    </details>
+                                  </li>
+                                  <li>Canticle</li>
+                                </ul>
+                              </details>
+                            </li>
+                            <li>Lauds</li>
+                            <li>Prime</li>
+                            <li>Terce</li>
+                            <li>Sext</li>
+                            <li>None</li>
+                            <li>Vespers</li>
+                            <li>Compline</li>
+                          </ul>
+                        </details>
+                      </li>
+                      <li>Hours of the Cross & Holy Spirit</li>
+                      <li>Penitential Psalms and Litany</li>
+                      <li>Office of the Dead</li>
+                      <li>Obsecro te, O intemerata</li>
+                      <li>Suffrages</li>
+                      <li>Accessory texts</li>
+                    </ul>
+                  </details>
+                </li>
+            </ul>
+          <div style="flex: 0 0 25%; font-size: 0.6em; line-height: 1.4; text-align: left;">
+            <p><strong>Source:</strong><br>
+    Dominique Stutzmann, Jacob Currie, Béatrice Daille, Amir Hazem, Christopher Kermorvant. <em>Integrated DH. Rationale of the HORAE Research Project.</em> Digital Humanities Conference, Jul 2019, Utrecht, Netherlands.
+            </p>
+          </div>
+            </section>
+
+            <section>
+              <h3>Goals</h3>
+              <p>Using text reuse detection tools, find psalms and other texts in the Books of Hours in order to:</p>
+                  <ul style="margin-top: 0.5em; font-size: 0.95em;">
+                    <li>describe their contents and improve the cataloguing</li>
+                    <li>study manuscripts’ circulation and origins.</li>
+              </ul>
+            </section>
+
+            <section style="text-align: left;">
+              <h3>Corpus overview</h3>
+              <ul style="font-size: 1em; line-height: 1.6;">
+                <li><strong>1 113</strong> manuscripts, <strong>45</strong> early printed books</li>
+                <li><strong>1 116</strong> HTR-sed</li>
+                <li><strong>302 772</strong> pages</li>
+                <li>13<sup>th</sup> to 16<sup>th</sup> centuries</li>
+                <li>
+                  available on 
+                  <a href="https://demo.arkindex.org/browse/cd38d0a4-bfd6-4bef-a44f-1d4da09226fd" target="_blank">Arkindex</a>.
+                </li>
+              </ul>
+              <ul style="font-size: 1em; line-height: 1.6;">
+                <h5 style="margin-top: 2em;">It also holds:</h5>
+                <li><strong>24 830</strong> miniatures</li>
+                <li><strong>1 778 552</strong> initials.</li>
+              </ul>
+            </section>
+          </section>
+      <section>
+        <section>
+          <h2>1. Data collection and processing</h2>
+        </section>
+        <section>
+          <ul style="font-size: 0.9em; line-height: 1.6;">
+            <li>Image collection via the IIIF protocol</li>
+            <li>Image segmentation: detection of initials, miniatures, and text zones</li>
+            <li>Automatic transcription by TEKLIA using a Kaldi-based model.</li>
+          </ul>
+        </section>
+
+        <section>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+
+              <!-- Large image on top -->
+              <img src="imgs/pageseg.png" alt="HTR and Segmentation Example" style="max-width: 80%; height: auto; border: 1px solid #ccc;">
+
+              <!-- Bottom row with table and caption -->
+              <div style="display: flex; justify-content: space-between; width: 100%; font-size: 0.5em; padding: 0 2rem; box-sizing: border-box;">
+
+                <!-- Left: caption -->
+                <div style="flex: 1; text-align: left; max-width: 45%;">
+                  <p><strong>Source:</strong><br>
+                    Béatrice Daille, Amir Hazem, Christopher Kermorvant, Martin Maarand, Marie-Laurence Bonhomme, et al. <br><em>Transcription automatique et segmentation thématique de livres d'heures manuscrits</em>.<br>
+                    Revue TAL : traitement automatique des langues, 2019, TAL et humanités numériques, 60(3), pp.13–36. (updated)
+                  </p>
+                </div>
+
+                <!-- Right: table -->
+                <div style="flex: 1; text-align: left; max-width: 50%;">
+                  <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Entraînement</th>
+                        <th>Validation</th>
+                        <th>Test</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>WER</td>
+                        <td>14.51</td>
+                        <td>24.46</td>
+                        <td>34.19</td>
+                      </tr>
+                      <tr>
+                        <td>WER (rescored)</td>
+                        <td>–</td>
+                        <td>32.36</td>
+                        <td>26.32</td>
+                      </tr>
+                      <tr>
+                        <td>CER</td>
+                        <td>8.93</td>
+                        <td>11.07</td>
+                        <td>11.21</td>
+                      </tr>
+                      <tr>
+                        <td>CER (rescored)</td>
+                        <td>–</td>
+                        <td>14.10</td>
+                        <td>9.90</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h3>Miniatures and initials detection pipeline</h3>
+            <h6>Credit: Lise Bernard</h6>
+            <img src="imgs/pipeline_HORAE_model_training_20250417.png" alt="Sample manuscript page" style="max-width: 80%; height: auto;">
+          </section>
       </section>
 
       <section>
-        <h2>1. Data Collection</h2>
+        <section>
+          <h2>2. Text reuse detection with passim</h2>
+        </section>
+        <section>
+          <h2>Challenges</h2>
+          <ul style="font-size: 0.9em; line-height: 1.6;">
+            <li>Noisy HTR data</li>
+            <li>Little to no ground truth available for training or evaluation</li>
+            <li>Large amount of data to process (by medievalist standards).</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Text reuse detection with passim</h2>
+          <ul style="font-size: 0.8em; line-height: 1.6;">
+            <li>
+              An open-source tool developed by David A. Smith.
+            </li>
+            <li>
+              Project repository:  
+              <a href="https://github.com/dasmiq/passim/tree/main" target="_blank">
+                github.com/dasmiq/passim
+              </a>
+            </li>
+            <li>
+              Introduction and tutorial:  
+              Matteo Romanello & Simon Hengchen,  
+              <em><a href="https://programminghistorian.org/en/lessons/detecting-text-reuse-with-passim" target="_blank">Detecting Text Reuse with Passim</a></em>, Programming Historian, 2021
+            </li>
+            <li>
+              <strong>Best evaluation results on our data:</strong><br>
+              Precision: <strong>0.76</strong>, recall: <strong>0.51</strong>, F1 Score: <strong>0.61</strong>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>Passim output in jsonl</h2>
+          <pre style="font-size: 0.5em; line-height: 1.4; text-align: left; background: #f9f9f9; padding: 1em; border-radius: 5px; border: 1px solid #ccc; white-space: pre-wrap; word-break: break-word;">
+        <strong>"uid": -7747811833890938386</strong>,
+        "cluster": 1, "begin": 231, "end": 379, "id": 398134, "series": "psalms",
+        "text": "animam meam humiliavit in terra vitam meam. Collocavit me in obscuris sicut mortuos seculi et anxiatus est super me spiritus meus in me turbatum es"
+
+        ---
+
+        "uid": -1932149852289013984, "cluster": 1, "begin": 0, "end": 153,
+        "src": [{<strong>"uid": -7747811833890938386</strong>, "begin": 231, "end": 379}],
+        "id": 202,
+        "series": "États-Unis, Baltimore, The Walters Art Museum, W.0085_HTR",
+        "text": "animam meam humi miliavit in terra vitam meam Tollocavit me Filii obscuris sicut mortuos seculi et anxiatus est super me spiritus meus in me turbatum est"
+          </pre>
+        </section>
+        <section>
+          <img src="imgs/Paris_BNF_Ms_lat_01177_passim_extended.png" 
+               alt="Passim output for Paris, BNF, Ms. lat. 1406" 
+               style="max-width: 110%; height: auto; border: 1px solid #ccc; margin-top: 1em;">
+        </section>
+
+      </section>
+
+
+      <section>
+        <section>
+          <h2>3. Psalm sequence extraction and validation</h2>
+        </section>
+        <section>
+          <h3>Prediction validation</h3>
+        </section>
+        <section>
+          <img src="imgs/Paris_BNF_Ms_lat_01177_sequences.png" 
+               alt="Sequences detected in France, Paris, Bibliothèque nationale de France, Manuscrits, lat. 01177" 
+               style="max-width: 110%; height: auto; border: 1px solid #ccc; margin-top: 1em;">
+        </section>
+        <section>
+          <img src="imgs/Paris_BNF_Ms_lat_01177_img_77.png" 
+               alt="Psalm 97 detected by error" 
+               style="max-width: 110%; height: auto; border: 1px solid #ccc; margin-top: 1em;">
+        </section>
+        <section>
+          <h3>Manuscript classification by use?</h3>
+        </section>
+        <section>
+          <h2>Psalm clusters shared by uses</h2>
+          <p>
+            <a href="sequences_interactive_tree.html" target="_blank" style="font-size: 1.2em; padding: 0.5em 1em; background: #444; color: white; border-radius: 5px; text-decoration: none;">
+              Open interactive file
+            </a>
+          </p>
+        </section>  
+      </section>
+      
+      <section>
+        <h3>Next steps</h3>
         <ul>
-          <li>Manuscripts, editions, metadata</li>
-          <li>Image files and transcription sources</li>
-          <li>Linked data or catalogue references</li>
+          <li>Short and very short text detection</li>
+          <li>Distinguishing between complete psalms and their fragments (antiphons etc)</li>
         </ul>
       </section>
 
       <section>
-        <h2>2. Computer Vision Tasks</h2>
-        <h3>2.1 Object Detection</h3>
-        <ul>
-          <li>Detect page regions, text zones, lines</li>
-        </ul>
-        <h3>2.2 HTR</h3>
-        <ul>
-          <li>Handwritten Text Recognition</li>
-          <li>Model training and inference</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>3. Data Extraction and Transformation</h2>
-        <ul>
-          <li>Convert raw outputs to structured formats</li>
-          <li>Align images and texts</li>
-          <li>Normalize and clean transcriptions</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>4. Text Reuse Detection</h2>
-        <ul>
-          <li>Use tools like Passim or TRACER</li>
-          <li>Detect intertextuality across corpora</li>
-          <li>Evaluate results with precision/recall</li>
+        <h3>Bibliography</h3>
+        <ul style="font-size: 0.6em; line-height: 1.5;">
+          <li>
+            Mélodie Boillet, Marie-Laurence Bonhomme, Dominique Stutzmann, and Christopher Kermorvant.  
+            <em>HORAE: an annotated dataset of books of hours</em>.  
+            Proceedings of The 5th International Workshop on Historical Document Imaging and Processing,  
+            Sydney, NSW, Australia, September 20–21, 2019 (HIP’19).
+          </li>
+          <li>
+            Béatrice Daille, Amir Hazem, Christopher Kermorvant, Martin Maarand, Marie-Laurence Bonhomme, et al.  
+            <em>Transcription automatique et segmentation thématique de livres d'heures manuscrits</em>.  
+            Revue TAL : traitement automatique des langues, 2019, TAL et humanités numériques, 60(3), pp. 13–36.
+          </li>
+          <li>
+            Dominique Stutzmann, Jacob Currie, Béatrice Daille, Amir Hazem, Christopher Kermorvant.  
+            <em>Integrated DH. Rationale of the HORAE Research Project</em>.  
+            Digital Humanities Conference, Jul 2019, Utrecht, Netherlands.
+          </li>
         </ul>
       </section>
 
-      <section>
-        <h2>5. Postprocessing &amp; Prediction Propagation</h2>
-        <ul>
-          <li>Heuristics and rules</li>
-          <li>Propagation across pages or segments</li>
-          <li>Error correction</li>
-        </ul>
-      </section>
 
-      <section>
-        <h2>6. Sequence Detection</h2>
-        <ul>
-          <li>Detect logical or editorial sequences</li>
-          <li>E.g. identify biblical citations or gloss orders</li>
-          <li>Graph or tree-like models</li>
-        </ul>
-      </section>
 
       <section>
         <h2>Thank you!</h2>
-        <p>Let's discuss how these steps interact and evolve</p>
-        <p>✉️ syatsyk@cnrs.fr<br>
-           🔗 <a href="https://github.com/Svetlana-Yatsyk/DH2025_psalms_text-reuse">project-repo-link</a></p>
-      </section>
+        <p>svetlana.yatsyk@cnrs.fr</p>
+        <img src="imgs/QR.svg" style="max-width: 50%; height: auto;">
+          </section>
 
     </div>
   </div>
